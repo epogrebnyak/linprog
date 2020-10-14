@@ -24,6 +24,7 @@ max_output = 5
 purchases = [0, 0, 2, 8, 1, 0, 1]
 cum_purchases = cumsum(purchases)
 
+
 model = pulp.LpProblem("Planning Problem", pulp.LpMinimize)
 x = pulp.LpVariable.dicts("Production", 
                            [0,1,2,3,4,5,6],
@@ -33,11 +34,12 @@ x = pulp.LpVariable.dicts("Production",
 def cumprod(i: int):
     return pulp.lpSum([x[k] for k in range(i+1)])
 
-def inventory(i: int):
+
+def inventory(i):
     return cumprod(i) - cum_purchases[i]
 
 def all_periods():
-    return [i for i, _ in enumerate(x)]
+    return [t for t, _ in enumerate(x)]
 
 # Minimise inventory - target function (целевая фукнция)
 model += pulp.lpSum(inventory(i) for i in all_periods())
@@ -52,10 +54,10 @@ model += pulp.lpSum(x) == sum(purchases)
 for i, cp in enumerate(cum_purchases):
         model += cumprod(i) >= cum_purchases[i]    
 
-# Constraint 3        
+# Constraint 3 - "условие непротухания"      
 # This is storage constriant - we do not produce anyhting that would not conumed after n days
-# "Условие непротухания" - мы не производим ничего, что через три дня не будет 
-# куплено со склада (Dmitry)
+# В нулевой день не больше, чем нужно кумулятивно на третий
+# Если это не выполняется, то часть продукции с нудевого дня должит до четвертого , а это нельзя
 for i in all_periods():   
     try:
         model += cumprod(i) <= cum_purchases[i+max_days_storage-1]
