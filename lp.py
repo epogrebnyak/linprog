@@ -25,7 +25,7 @@ purchases = [0, 0, 2, 8, 1, 0, 1]
 cum_purchases = cumsum(purchases)
 
 
-model = pulp.LpProblem("Planning Problem", pulp.LpMinimize) # orLpMinimize - does not matter
+model = pulp.LpProblem("Planning Problem", pulp.LpMinimize)
 x = pulp.LpVariable.dicts("Production", 
                            [0,1,2,3,4,5,6],
                            lowBound = 0,
@@ -44,15 +44,18 @@ def all_periods():
 # Minimise inventory - target function (целевая фукнция)
 model += pulp.lpSum(inventory(i) for i in all_periods())
 
+# Constraint 1
 # No inventory at end of period, everyhting what is produced consumed within period 
 model += pulp.lpSum(x) == sum(purchases)
 
+# Constraint 2
 # This is availability constraint - there is enough product produced to satisfy demand
 # We effectively require non-negative inventory
 for i, cp in enumerate(cum_purchases):
         model += cumprod(i) >= cum_purchases[i]    
-        
-# This is storage constriant - we do not produce anyhting that would not consumed after n days
+
+# Constraint 3        
+# This is storage constriant - we do not produce anyhting that would not conumed after n days
 # "Условие непротухания" - мы не производим ничего, что через три дня не будет 
 # куплено со склада (Dmitry)
 for i in all_periods():   
@@ -71,6 +74,6 @@ print(df)
 df.plot.bar()
 df_cum.plot()
 
-# Notes:
+# Note:
 # 1. The solution is not unique, but how do we know it form solver?
 #    How do we extract other solutions from solver?
