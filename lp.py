@@ -24,7 +24,6 @@ max_output = 5
 purchases = [0, 0, 2, 8, 1, 0, 1]
 cum_purchases = cumsum(purchases)
 
-
 model = pulp.LpProblem("Planning Problem", pulp.LpMinimize)
 x = pulp.LpVariable.dicts("Production", 
                            [0,1,2,3,4,5,6],
@@ -34,12 +33,11 @@ x = pulp.LpVariable.dicts("Production",
 def cumprod(i: int):
     return pulp.lpSum([x[k] for k in range(i+1)])
 
-
-def inventory(i):
+def inventory(i: int):
     return cumprod(i) - cum_purchases[i]
 
 def all_periods():
-    return [t for t, _ in enumerate(x)]
+    return [i for i, _ in enumerate(x)]
 
 # Minimise inventory - target function (целевая фукнция)
 model += pulp.lpSum(inventory(i) for i in all_periods())
