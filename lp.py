@@ -39,7 +39,7 @@ def inventory(i):
     return cumprod(i) - cum_purchases[i]
 
 def all_periods():
-    return [t for t, _ in enumerate(x)]
+    return range(len(x))
 
 # Minimise inventory - target function (целевая фукнция)
 model += pulp.lpSum(inventory(i) for i in all_periods())
@@ -64,16 +64,21 @@ for i in all_periods():
     except IndexError:
         pass
 
-model.solve()
+feasibility = model.solve()
 
-# show results
-planned_x = [v.value() for v in x.values()]
-df = pd.DataFrame(dict(production=planned_x, purchases=purchases, inventory=cumsum(planned_x)-cum_purchases))
-df_cum = pd.DataFrame(dict(cum_production=cumsum(planned_x), cum_purchases=cum_purchases))
-print(df)
-df.plot.bar()
-df_cum.plot()
+if feasibility == 1:    
+    print("Solution found") 
+    # show results
+    planned_x = [v.value() for v in x.values()]
+    df = pd.DataFrame(dict(production=planned_x, purchases=purchases, inventory=cumsum(planned_x)-cum_purchases))
+    df_cum = pd.DataFrame(dict(cum_production=cumsum(planned_x), cum_purchases=cum_purchases))
+    print(df)
+    df.plot.bar()
+    df_cum.plot()
+else:
+    print("Solution not found")    
+    
 
 # Note:
-# 1. If the solution is not unique, how do we know it from solver?
+# 1. The solution is not unique, but how do we know it form solver?
 #    How do we extract other solutions from solver?
