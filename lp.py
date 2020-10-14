@@ -75,5 +75,5 @@ df.plot.bar()
 df_cum.plot()
 
 # Note:
-# 1. The solution is not unique, but how do we know it form solver?
+# 1. If the solution is not unique, how do we know it from solver?
 #    How do we extract other solutions from solver?
