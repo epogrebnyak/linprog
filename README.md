@@ -1,8 +1,7 @@
 ### Task description
 
-Given:
 - 1 product
-- planning for 7 days of production
+- production planning for 7 days
 - production quantaties `x[t], t = 0...6`
 - max production capacity C, `0 <= x[t] <= C`, let `C = 5`
 - product can be stored for s days, let `s = 3`
@@ -14,6 +13,18 @@ Find x[t] (can be non-unique)
 ### Solution
 
 Solution code [here](simple_demo.py).
+
+Ideas:
+
+- introduce min phycial inventories as target function 
+- may also min time-weights `7*x0 + 6*x1 + ... + 1*x6` 
+- several ways to model limited shelf life ("условие непротухания")
+- can explcitly model FIFO warehouse (by earmarking daily production), as a check
+
+Hidden assumptions made:
+
+- no limit on storage capacity
+- assume end of day clearance (eg all purchases made at end of day)
 
 ![](lp.png)
 
