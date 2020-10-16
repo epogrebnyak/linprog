@@ -19,30 +19,45 @@ import pulp
 import pandas as pd
 from numpy import cumsum
 
+# Given:
 max_days_storage = 3
 max_output = 5
 purchases = [0, 0, 2, 8, 1, 0, 1]
+
+# Notation and problem definition:
+    
 cum_purchases = cumsum(purchases)
+total_days = len(purchases)
+# let days index (i or t) be zero-based [0, 1, 2, 3, 4, 5, 6]
+days = [i for i in range(total_days)]
 
 
 model = pulp.LpProblem("Planning Problem", pulp.LpMinimize)
 x = pulp.LpVariable.dicts("Production", 
-                           [0,1,2,3,4,5,6],
+                           days,
                            lowBound = 0,
                            upBound = max_output)
 
+def cumbuy(i: int):
+    """
+    Cumulative purchases / shipments by end of day i. 
+    Returns a scalar value.
+    """
+    return cum_purchases[i]
+
 def cumprod(i: int):
+    """
+    Cumulative production by end of day i. 
+    Returns an expression containing x. 
+    """
     return pulp.lpSum([x[k] for k in range(i+1)])
 
-
 def inventory(i):
-    return cumprod(i) - cum_purchases[i]
+    return cumprod(i) - cumbuy(i)
 
-def all_periods():
-    return range(len(x))
-
-# Minimise inventory - target function (целевая фукнция)
-model += pulp.lpSum(inventory(i) for i in all_periods())
+# Target function (целевая фукнция):
+# - minimise inventory
+model += pulp.lpSum(inventory(i) for i in days)
 
 # Constraint 1
 # No inventory at end of period, everyhting what is produced consumed within period 
@@ -50,15 +65,16 @@ model += pulp.lpSum(x) == sum(purchases)
 
 # Constraint 2
 # This is availability constraint - there is enough product produced to satisfy demand
-# We effectively require non-negative inventory
-for i, cp in enumerate(cum_purchases):
-        model += cumprod(i) >= cum_purchases[i]    
+# We effectively require non-negative inventory.
+for i in days:
+        model += cumprod(i) - cumbuy(i) >= 0    
 
-# Constraint 3 - "условие непротухания"      
-# This is storage constriant - we do not produce anyhting that would not conumed after n days
+# Constraint 3 - "nothing perished" ("условие непротухания")
+# This is storage constriant - we do not produce anything that would not 
+# consumed after n days
 # В нулевой день не больше, чем нужно кумулятивно на третий
 # Если это не выполняется, то часть продукции с нудевого дня должит до четвертого , а это нельзя
-for i in all_periods():   
+for i in days:   
     try:
         model += cumprod(i) <= cum_purchases[i+max_days_storage-1]
     except IndexError:
