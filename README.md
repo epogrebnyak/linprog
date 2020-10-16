@@ -8,7 +8,7 @@
 - we are given a purchases schedule on each day, let `purchases = [0, 0, 2, 8, 1, 0, 1]`
 - cumulative sum of purchases is required stock of product for day t
 
-Find x[t] (can be non-unique)
+Find `x[t]` (can be non-unique)
 
 ### Solution
 
