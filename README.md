@@ -21,6 +21,8 @@ Find `x[t]` (can be non-unique)
 
 Solution code [here](simple_demo.py).
 
+### Comments
+
 Ideas:
 
 - we introduce min phycial inventories as target function to make solution unique
