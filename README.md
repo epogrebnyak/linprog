@@ -14,9 +14,9 @@ Find x[t] (can be non-unique)
 
 |            |   0 |   1 |   2 |   3 |   4 |   5 |   6 |
 |:-----------|----:|----:|----:|----:|----:|----:|----:|
-| Purchases  |   0 |   0 |   2 |   8 |   1 |   0 |   1 |
-| Production |   0 |   0 |   5 |   5 |   1 |   0 |   1 |
-| Inventory  |   0 |   0 |   3 |   0 |   0 |   0 |   0 |
+| Purchases (given)  |     |     |   2 |   8 |   1 |    |   1 |
+| Production (found) |     |     |   5 |   5 |   1 |    |   1 |
+| Inventory  (found) |     |     |   3 |     |     |    |     |
 
 Solution code [here](simple_demo.py).
 
