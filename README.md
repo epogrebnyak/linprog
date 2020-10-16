@@ -15,7 +15,7 @@ Find: `x[t]` (can be non-unique)
 |:-------------------|----:|----:|----:|----:|----:|----:|----:|
 | Purchases (given)  |     |     |   2 |   8 |   1 |     |   1 |
 | Production (found) |     |     |   5 |   5 |   1 |     |   1 |
-| Inventory  (found) |     |     |   3 |     |     |     |     |
+| Inventory    |     |     |   3 |     |     |     |     |
 
 Solution code [here](simple_demo.py).
 
