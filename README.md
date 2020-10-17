@@ -21,6 +21,8 @@ Find `x[t]` (can be non-unique)
 
 Solution code [here](simple_demo.py).
 
+![](simple_demo.png)
+
 ### Comments
 
 Ideas:
@@ -42,8 +44,6 @@ May add next:
 - picking form orders that are over capacity
 - 2+ products, different margins (price-unit cost)
 - other realistic features
-
-![](lp.png)
 
 ### Reference
 
