@@ -17,7 +17,7 @@ Find `x[t]` (can be non-unique)
 |:-------------------|----:|----:|----:|----:|----:|----:|----:|
 | Purchases (given)  |     |     |   2 |   8 |   1 |     |   1 |
 | Production (found) |     |     |   5 |   5 |   1 |     |   1 |
-| Inventory    |     |     |   3 |     |     |     |     |
+| Inventory          |     |     |   3 |     |     |     |     |
 
 Solution code [here](simple_demo.py).
 
@@ -41,8 +41,11 @@ Hidden assumptions made:
 
 May add next:
 
-- picking form orders that are over capacity
+- refactor algorithm into single function
+- add unit tests
+- picking most profitable orders from a list over capacity
 - 2+ products, different margins (price-unit cost)
+- sequential production (product 1 is a precursor to product 2)
 - other realistic features
 
 ### Reference
