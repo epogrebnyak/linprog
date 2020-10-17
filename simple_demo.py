@@ -14,7 +14,7 @@ Demonstrate solver behavior under following parameters and expected results:
 - all orders are under max capacity per day, no need to make stocks ps = [1, 2, 5, 2, 1, 5, 3]
 - production schedule is unique, eg when ps = [0, 0, 15, 0, 0, 0, 0] and xs = [5,5,5,0, 0, 0, 0]
 - production schedule not unique (as above)
-- production schedule not feasisble eg ps = [0, 0, 20, 0, 0, 0, 0]
+- production schedule not feasisble eg ps = [0, 0, 0, 20, 0, 0, 0]
 """
 
 import time
@@ -28,10 +28,13 @@ from numpy import cumsum
 
 warnings.simplefilter("ignore")  # shut <Spaces are not permitted in the name.>
 
+
 # Given:
-max_days_storage = 3
+
+max_days_storage: int = 3
 max_output = 5
 purchases = [0, 0, 2, 8, 1, 0, 1]
+
 
 # Notation and problem definition:
 
@@ -88,9 +91,9 @@ for i in days:
 # This formulation may change if we allow non-zero end of month stocks.
 for i in days:
     try:
-        model += inventory(i) <= cumbuy(i + max_days_storage) - cumbuy(i)
+        model += inventory(i) <= cumbuy(i + max_days_storage - 1) - cumbuy(i)
         # this is mathematically equivalent to:
-        # cumprod(i) <= cumbuy(i+max_days_storage)
+        # cumprod(i) <= cumbuy(i+max_days_storage-1)
         # (earlier suggested by Dmitry)
     except IndexError:
         pass
@@ -120,7 +123,7 @@ def plot(df, df_cum):
     df.plot.bar(ax=ax2)
     ax1.yaxis.grid()
     ax2.yaxis.grid()
-    fig.savefig("lp.png")
+    fig.savefig("simple_demo.png")
 
 
 # Solve model
@@ -148,6 +151,49 @@ if feasibility == 1:
 else:
     print("Solution not found")
 
-# Note:
-# 1. The solution is not unique, but how do we know it form solver?
-#    How do we extract other solutions from solver?
+
+def calculate(purchases, max_days_storage, max_output):
+    """
+    Model wrapped in a single function.
+    """
+    cum_purchases = cumsum(purchases)
+    total_days = len(purchases)
+    days = [i for i in range(total_days)]
+    model = pulp.LpProblem("Planning Problem", pulp.LpMinimize)
+    x = pulp.LpVariable.dicts("Production", days, lowBound=0, upBound=max_output)
+    cum_prod = cumsum([v for k, v in x.items()])
+    inventory = cum_prod - cum_purchases
+    # target func: min inventory
+    model += pulp.lpSum(inventory[i] for i in days)
+    # closed sum, zero inventory at start and end
+    model += pulp.lpSum(x) == sum(purchases)
+    # enough production to satisfy purchases
+    for i in days:
+        model += cum_prod[i] - cum_purchases[i] >= 0
+    # nothing stored too long
+    for i in days[: (-max_days_storage + 1)]:
+        offtake = cum_purchases[i + max_days_storage - 1] - cum_purchases[i]
+        model += inventory[i] <= offtake
+    return model, x
+
+
+def peek(x):
+    return [v.value() for v in x.values()]
+
+
+assert days[: -max_days_storage + 1][-1] + max_days_storage - 1 == days[-1]
+
+m, x = calculate([0, 0, 0, 20, 0, 0, 0], 3, 5)
+assert m.solve() == -1
+
+m, x = calculate([0, 0, 15, 0, 0, 0, 0], 3, 5)
+m.solve()
+assert peek(x) == [5, 5, 5, 0, 0, 0, 0]
+
+m, x = calculate([0, 0, 15, 0, 0, 0, 0], 3, 5)
+m.solve()
+assert peek(x) == [5, 5, 5, 0, 0, 0, 0]
+
+m, x = calculate([0, 0, 2, 8, 1, 0, 1], 3, 5)
+m.solve()
+assert peek(x) == [0, 0, 5, 5, 1, 0, 1]
