@@ -178,6 +178,9 @@ def calculate(purchases, max_days_storage, max_output):
 
 
 def peek(x):
+    """
+    Lookup into dict of pulp.LpVariable.
+    """
     return [v.value() for v in x.values()]
 
 
