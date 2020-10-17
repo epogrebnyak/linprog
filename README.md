@@ -37,16 +37,19 @@ Hidden assumptions made:
 - closed sum - everything produced must be consumed
 - no limit on storage capacity
 - assume end of day clearance (eg all purchases made at end of day)
-- probuction
 
 May add next:
 
-- refactor algorithm into single function
-- add unit tests
 - picking most profitable orders from a list over capacity
 - 2+ products, different margins (price-unit cost)
 - sequential production (product 1 is a precursor to product 2)
 - other realistic features
+
+Notes:
+
+1. The solution may be not unique, but how do we know it form solver?
+   How do we extract other solutions from solver?
+
 
 ### Reference
 
