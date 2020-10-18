@@ -17,7 +17,7 @@ Why this excercise can be useful? Model vs real world: detecting what we capture
 
 <a name="task1"></a>
 
-## Task 1 - production schedule for one perishable product 
+## Task 1 - Production schedule for one perishable product 
 
 ### Problem description
 
