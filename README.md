@@ -2,13 +2,16 @@
 
 This is a set of demo problems to try PuLP, python librabry for linear programming.
 
-The problems are kept quite simple and toy size, if needed can be thought over as chemical or mechanical production lines.  
-
 There are three tasks, followed by [project notes](#Notes) and [several references](#References):
 
 - [Task 1 - Production schedule for one perishable product](#task1)
 - [Task 2 - Sequential production, product A is a precursor to product B](#task2)
 - [Task 3 - Select orders when demand over capacity](#task3)
+
+The problems are kept quite simple and toy size (7 days of planning, 1-2 goods). They reveal 
+the logic of formulation of storage time limit, sequential production and order selection. 
+
+Why this can useful - detecting what we capture in the model and what not with respect to real production.
 
 <a name="task1"></a>
 
