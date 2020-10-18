@@ -1,7 +1,7 @@
 # Scheduling and production planning problems
 
-- [Task 1 - production schedule for one perishable product](#task1)
-- [Task 2 - two non-perishable goods, one is precursor to another](#task2)
+- [Task 1 - Production schedule for one perishable product](#task1)
+- [Task 2 - Sequential production, product A is a precursor to product B](#task2)
 - [Notes](#Notes)
 - [References](#References)
 
@@ -30,12 +30,11 @@ Target function:
 - we introduce min phycial inventories as target function to make solution unique
 - may also use min time-weights `7*x0 + 6*x1 + ... + 1*x6` as alternative target function (unconditional preference for later production)
 
-
-Additoinal assumptions:
+Revealed assumptions:
 
 1. closed sum - everything produced must be consumed, zero outgoing inventory
 2. we set no limit on storage capacity - infinite warehouse
-3. We assume end of day clearance (all purchases made at end of day - evrything produced at day t can be sold at dat t)
+3. we assume end of day clearance, all purchases made at end of day - everything produced at day t can be sold at day t
 
 |                       | Is contrained?    |
 |-----------------------|-------------------|
@@ -47,7 +46,6 @@ Additoinal assumptions:
 Other comments:
 
 - there are several ways to formulate constraints for limited shelf-life / max storage duration  ("условие непротухания")
-- can explcitly model FIFO warehouse (by earmarking daily production), as a check
 
 
 ### Solution
@@ -64,7 +62,7 @@ Solution code [here](simple_demo.py).
 
 <a name="task2"></a>
 
-## Task 2 - two non-perishable goods, one is precursor to another
+## Task 2 - Sequential production, product A is a precursor to product B
 
 - we produce two goods 
 - good A is precursor to good B, but there are orders for both A and B.
@@ -81,11 +79,11 @@ May add next:
 
 - picking most profitable orders from a list over capacity
 - 2+ products, different margins (price-unit cost)
-- sequential production (product 1 is a precursor to product 2)
+- can explcitly model FIFO warehouse (by earmarking daily production), as a check
 
 Questions:
 
-1. The solution may be not unique, but how do we know it form solver?
+1. The solution may be not unique, but how do we know it from solver?
    How do we extract other solutions from solver?
 2. How to know which constraint was binding?
 
