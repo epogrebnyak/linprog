@@ -1,6 +1,6 @@
 # Scheduling and production planning problems
 
-This is a set of demo problems to try PuLP, python librabry for linear programming.
+This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), python librabry for linear programming.
 
 There are three tasks, followed by [project notes](#Notes) and [several references](#References):
 
