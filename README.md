@@ -3,25 +3,28 @@
 > The optimal solution for a model is not necessarily the optimal solution for the real problem.
 `["Supplement B"]`
 
-This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), python librabry for linear programming. There are three tasks, followed by [project notes](#Notes) and [several references](#References):
+This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), python librabry for linear programming. There are three isolated tasks and a combination of them into bigger, more realistic production problem.
 
 - [Task 1 - Production schedule for one perishable product](#task1)
 - [Task 2 - Sequential production](#task2)
 - [Task 3 - Select orders when demand over capacity](#task3)
+- [Task 4 - Combine tasks 1, 2 and 3](#task4)
 
 The problems are kept quite simple and toy size (7 days of planning, 1-2 goods). They reveal 
 the logic of formulation of storage time limit, sequential production and order selection for 
 a generic industrial (eg chemical or mechanical) production. 
 
 Why this excercise can be useful? Differentiate model vs real world, detect what we capture in the model and what not with respect to real production,
-see if enforcing model rules can be feasible in practice, what judgement may suggest vs the model, what are data requirements, model extensions, 
-business changes (eg pricing, contract structure), what is "lean" materially, etc.
+see if enforcing model rules can be feasible in practice, what judgement and intuition may suggest vs the model, what are data requirements, model extensions, 
+business changes may be (eg pricing, contract structure), what is "lean" materially, etc.
+
+There are also [project notes](#Notes) and [several references](#References) below.
 
 <a name="task1"></a>
 
 ## Task 1 - Production schedule for one perishable product 
 
-### Problem description
+#### Problem description
 
 Setting:
 
@@ -32,9 +35,9 @@ Setting:
 - product is perishable, it can be stored for s days, let `s = 3`
 - we are given a purchases schedule on each day, let `purchases = [0, 0, 2, 8, 1, 0, 1]`
 
-Introduce target fucntion and find production volumes `x[t]`. Explore situation where result is not unique.
+Introduce target funсtion and find production volumes `x[t]`. Explore situation where result is not unique.
 
-### Solution formulation 
+#### Solution formulation 
 
 Target function:
 
@@ -57,10 +60,11 @@ Revealed assumptions:
 
 Other comments:
 
-- there are several ways to formulate constraints for limited shelf-life / max storage duration  ("условие непротухания")
+- we looked at several ways to formulate constraints for limited shelf-life / limit on storage duration  ("условие непротухания")
+- minumum inventory is not necessarily the freshest shipment (?)
 
 
-### Solution
+#### Solution
 
 | Day                |   0 |   1 |   2 |   3 |   4 |   5 |   6 |
 |:-------------------|----:|----:|----:|----:|----:|----:|----:|
@@ -90,9 +94,22 @@ Introduce target function and find optimal production of product A and B (`xa`, 
 
 ## Task 3 - Select orders when demand over capacity
 
-Pick most profitable orders from a list of orders when demand is over production capacity.
+Pick most profitable orders from a list of orders when demand is over production capacity:
 
-Todo next (after 18/10/2020).
+- prices for same products may vary by order
+- we need to limit time span for orders
+
+<a name="task4"></a>
+
+## Task 4 - Combine tasks 1, 2 and 3
+
+What can go wrong when combining three tasks:
+
+- more constraints overlap
+- will need more days of planning (>7)
+- may need to relax more constraints (eg zero incoming and outgoing inventory)
+- must write exhaustive list of assumptions
+- shoud expiry dates affect storage at the warehouse or is is global product life?
 
 ## Notes
 
@@ -103,10 +120,16 @@ Remaining questions about the PuLP solver and example extentions:
 2. How to know which constraint was binding?
 3. Are dual prices meaningful for this type of problem?
 4. Is any sensitivity analysis possible?
+5. Can we do multiple criteria optimisation (eg weights in target func)?
+6. How to list second-best, third-best solution?
+7. What would 'soft constraints' enable us to do?
 
-Extra assignents:
+Other modelling needs:
 
-- explcitly model FIFO warehouse (by earmarking daily production), as a check
+1. May need extra way to shift production right - prefer later production for any order
+2. Explcitly model FIFO warehouse (by earmarking daily production):
+  - as a direct check no expired products are shipped
+  - calculate average age of products when sold, in days
 
 ## References
 
