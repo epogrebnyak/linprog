@@ -94,10 +94,36 @@ Introduce target function and find optimal production of product A and B (`xa`, 
 
 ## Task 3 - Select orders when demand over capacity
 
-Pick most profitable orders from a list of orders when demand is over production capacity:
+Pick most profitable orders from a list of orders when demand (sum of orders) is over production capacity:
 
+- 2 products
+- constant cost of production for each product, expressed as USD/t
+- total of `m` orders
+- each order in product, price, day_of_delivery_pair
+- capacity constraints, t/day
+- no storage conditions (to be relaxed)
+- no inventory minimisation (to be relaxed)
 - prices for same products may vary by order
-- we need to limit time span for orders
+- orders are indivisible
+- choice on order is accept/reject
+- limit on time span for orders (?)
+- all orders are cash on the spot, no other preferences between orders
+
+Orders:
+
+- (order_quantity_1, order_price_1, order_day_1)
+- ...
+- (order_quantity_m, order_price_m, order_day_m)
+
+We will need intergers `accept_1`, ..., `accept_m`, `0 <= accept_i <= 1` to mark if order is accepted.
+
+purchase_t = sum of `accept_<i> * order_quantity_<i>` for all `i` where `order_day_i == t`
+
+Similar formulation for `profit` = `accept_<i> * order_quantity_<i> * (order_price_<i> - product_cost_<i>)`, 
+where the only variable is `accept_<i>` and the rest are values of variables, known at time of construction of 
+target function.
+
+Also need a good test example, showing a case when something could have gone wrong.
 
 <a name="task4"></a>
 
@@ -109,7 +135,7 @@ What can go wrong when combining three tasks:
 - will need more days of planning (>7)
 - may need to relax more constraints (eg zero incoming and outgoing inventory)
 - must write exhaustive list of assumptions
-- shoud expiry dates affect storage at the warehouse or is is global product life?
+- should expiry dates affect storage at the warehouse or is is global product life?
 
 ## Notes
 
