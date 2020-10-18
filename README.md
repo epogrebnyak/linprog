@@ -14,8 +14,8 @@ the logic of formulation of storage time limit, sequential production and order 
 a generic industrial (eg chemical or mechanical) production. 
 
 Why this excercise can be useful? Differentiate model vs real world, detect what we capture in the model and what not with respect to real production,
-see if enforcing model rules can be feasible in practice, what judgement may suggest vs the model, what are data requirements, model extensions, 
-business changes (eg pricing, contract structure), what is "lean" materially, etc.
+see if enforcing model rules can be feasible in practice, what judgement and intuition may suggest vs the model, what are data requirements, model extensions, 
+business changes may be (eg pricing, contract structure), what is "lean" materially, etc.
 
 <a name="task1"></a>
 
@@ -90,9 +90,10 @@ Introduce target function and find optimal production of product A and B (`xa`, 
 
 ## Task 3 - Select orders when demand over capacity
 
-Pick most profitable orders from a list of orders when demand is over production capacity.
+Pick most profitable orders from a list of orders when demand is over production capacity:
 
-Todo next (after 18/10/2020).
+- prices for same products may vary by order
+- we need to limit time span for orders
 
 ## Notes
 
@@ -103,6 +104,11 @@ Remaining questions about the PuLP solver and example extentions:
 2. How to know which constraint was binding?
 3. Are dual prices meaningful for this type of problem?
 4. Is any sensitivity analysis possible?
+
+What can go wrong when combining three tasks:
+
+- more constraints overlap
+- will need more days of planning (>7)
 
 Extra assignents:
 
