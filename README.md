@@ -101,7 +101,7 @@ Pick most profitable orders from a list of orders when demand is over production
 
 <a name="task4"></a>
 
-## Task 4 - Combine tasks 1, 2 and 3]
+## Task 4 - Combine tasks 1, 2 and 3
 
 What can go wrong when combining three tasks:
 
