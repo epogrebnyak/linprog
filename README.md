@@ -21,7 +21,7 @@ business changes may be (eg pricing, contract structure), what is "lean" materia
 
 ## Task 1 - Production schedule for one perishable product 
 
-### Problem description
+#### Problem description
 
 Setting:
 
@@ -32,9 +32,9 @@ Setting:
 - product is perishable, it can be stored for s days, let `s = 3`
 - we are given a purchases schedule on each day, let `purchases = [0, 0, 2, 8, 1, 0, 1]`
 
-Introduce target fucntion and find production volumes `x[t]`. Explore situation where result is not unique.
+Introduce target funсtion and find production volumes `x[t]`. Explore situation where result is not unique.
 
-### Solution formulation 
+#### Solution formulation 
 
 Target function:
 
@@ -57,7 +57,7 @@ Revealed assumptions:
 
 Other comments:
 
-- there are several ways to formulate constraints for limited shelf-life / max storage duration  ("условие непротухания")
+- we looked at several ways to formulate constraints for limited shelf-life / max storage duration  ("условие непротухания")
 
 
 ### Solution
@@ -104,15 +104,23 @@ Remaining questions about the PuLP solver and example extentions:
 2. How to know which constraint was binding?
 3. Are dual prices meaningful for this type of problem?
 4. Is any sensitivity analysis possible?
+5. Can we do multiple criteria optimisation (eg weights in target func)?
+6. How to list second-best, third-best solution?
+7. What would 'soft constraints' enable us to do?
 
 What can go wrong when combining three tasks:
 
 - more constraints overlap
 - will need more days of planning (>7)
+- may need to relax more constraints (eg zero outgoing inventory)
+- exhaustive list of assumptions
 
-Extra assignents:
+Other modelling needs:
 
-- explcitly model FIFO warehouse (by earmarking daily production), as a check
+1. May need extra way to shift production right - prefer later production for any order
+2. Explcitly model FIFO warehouse (by earmarking daily production):
+  - as a direct check no expired products are shipped
+  - calculate average age of products when sold, in days
 
 ## References
 
