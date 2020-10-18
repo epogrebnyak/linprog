@@ -132,6 +132,7 @@ with timer() as t:
 
 
 # Report
+print("Status:", pulp.LpStatus[feasibility])
 if feasibility == 1:
     print("Solution found in %.4f seconds" % t.elapsed)
     # show results
