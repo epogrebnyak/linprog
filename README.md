@@ -1,9 +1,5 @@
 # Scheduling and production planning problems
 
-> The optimal solution for a model is not necessarily the optimal solution for the real problem.
-
-Contents:
-
 - [Task 1 - production schedule for one perishable product](#task1)
 - [Task 2 - two non-perishable goods, one is precursor to another](#task2)
 - [Notes](#Notes)
@@ -91,11 +87,24 @@ Questions:
 
 1. The solution may be not unique, but how do we know it form solver?
    How do we extract other solutions from solver?
-2. How to we know which cnstrain was binding?
+2. How to know which constraint was binding?
+
+Quote:
+
+> The optimal solution for a model is not necessarily the optimal solution for the real problem.
+`["Supplement B"]`
 
 ## References
 
+Software:
+
 - [PuLP package documentation](https://coin-or.github.io/pulp)
+
+Papers (review, etc):
+
 - [Mixed Integer Linear Programming in Process Scheduling: Modeling, Algorithms, and Applications](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjL0N-kxL7sAhUnmYsKHWoxBm0QFjAAegQIAhAC&url=http%3A%2F%2Fcheresearch.engin.umich.edu%2Flin%2Fpublications%2FMixed%2520Integer%2520Linear%2520Programming%2520in%2520Process%2520Scheduling.pdf&usg=AOvVaw1o03XZyPw9rgAH3YG7bJOz)
 - [Multiproduct, multistage machine requirements planning models](https://core.ac.uk/download/pdf/81151558.pdf)
+
+Other:
+
 - ["Supplement B"](http://www.uky.edu/~dsianita/300/online/LP.pdf) from [lecture notes](http://www.uky.edu/~dsianita/300/300lecture.html)
