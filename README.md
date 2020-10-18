@@ -1,5 +1,8 @@
 # Scheduling and production planning problems
 
+> The optimal solution for a model is not necessarily the optimal solution for the real problem.
+`["Supplement B"]`
+
 This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), python librabry for linear programming.
 
 There are three tasks, followed by [project notes](#Notes) and [several references](#References):
@@ -9,9 +12,10 @@ There are three tasks, followed by [project notes](#Notes) and [several referenc
 - [Task 3 - Select orders when demand over capacity](#task3)
 
 The problems are kept quite simple and toy size (7 days of planning, 1-2 goods). They reveal 
-the logic of formulation of storage time limit, sequential production and order selection. 
+the logic of formulation of storage time limit, sequential production and order selection for 
+factory (eg chemical or mechanical production). 
 
-Why this can useful? Model vs real world: detecting what we capture in the model and what not with respect to real production.
+Why this excercise can be useful? Model vs real world: detecting what we capture in the model and what not with respect to real production.
 
 <a name="task1"></a>
 
@@ -92,21 +96,17 @@ Todo next (after 18/10/2020).
 
 ## Notes
 
-Remaining questions about the PuLP solver:
+Remaining questions about the PuLP solver and example extentions:
 
 1. The solution may be not unique, but how do we know it from solver?
    How do we extract other solutions from solver?
 2. How to know which constraint was binding?
+3. Are dual prices meaning for this type of problem?
+4. Is any sensitivity analysis possible?
 
-May add next:
+Extra assignents:
 
-- 2+ products, different margins (price-unit cost)
 - explcitly model FIFO warehouse (by earmarking daily production), as a check
-
-Quote:
-
-> The optimal solution for a model is not necessarily the optimal solution for the real problem.
-`["Supplement B"]`
 
 ## References
 
