@@ -3,9 +3,7 @@
 > The optimal solution for a model is not necessarily the optimal solution for the real problem.
 `["Supplement B"]`
 
-This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), python librabry for linear programming.
-
-There are three tasks, followed by [project notes](#Notes) and [several references](#References):
+This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), python librabry for linear programming. There are three tasks, followed by [project notes](#Notes) and [several references](#References):
 
 - [Task 1 - Production schedule for one perishable product](#task1)
 - [Task 2 - Sequential production](#task2)
@@ -13,13 +11,15 @@ There are three tasks, followed by [project notes](#Notes) and [several referenc
 
 The problems are kept quite simple and toy size (7 days of planning, 1-2 goods). They reveal 
 the logic of formulation of storage time limit, sequential production and order selection for 
-factory (eg chemical or mechanical production). 
+a generic industrial (eg chemical or mechanical) production. 
 
-Why this excercise can be useful? Model vs real world: detecting what we capture in the model and what not with respect to real production.
+Why this excercise can be useful? Differentiate model vs real world, detect what we capture in the model and what not with respect to real production,
+see if enforcing model rules can be feasible in practice, what judgement may suggest vs the model, what are data requirements, model extensions, 
+business changes (eg pricing, contract structure), what is "lean" materially, etc.
 
 <a name="task1"></a>
 
-## Task 1 - production schedule for one perishable product 
+## Task 1 - Production schedule for one perishable product 
 
 ### Problem description
 
@@ -101,7 +101,7 @@ Remaining questions about the PuLP solver and example extentions:
 1. The solution may be not unique, but how do we know it from solver?
    How do we extract other solutions from solver?
 2. How to know which constraint was binding?
-3. Are dual prices meaning for this type of problem?
+3. Are dual prices meaningful for this type of problem?
 4. Is any sensitivity analysis possible?
 
 Extra assignents:
