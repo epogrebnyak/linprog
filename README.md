@@ -3,11 +3,12 @@
 > The optimal solution for a model is not necessarily the optimal solution for the real problem.
 `["Supplement B"]`
 
-This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), python librabry for linear programming. There are three tasks, followed by [project notes](#Notes) and [several references](#References):
+This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), python librabry for linear programming. There are three isolated tasks and a combination of them into bigger, more realistic production problem.
 
 - [Task 1 - Production schedule for one perishable product](#task1)
 - [Task 2 - Sequential production](#task2)
 - [Task 3 - Select orders when demand over capacity](#task3)
+- [Task 4 - Combine tasks 1, 2 and 3](#task4)
 
 The problems are kept quite simple and toy size (7 days of planning, 1-2 goods). They reveal 
 the logic of formulation of storage time limit, sequential production and order selection for 
@@ -16,6 +17,8 @@ a generic industrial (eg chemical or mechanical) production.
 Why this excercise can be useful? Differentiate model vs real world, detect what we capture in the model and what not with respect to real production,
 see if enforcing model rules can be feasible in practice, what judgement and intuition may suggest vs the model, what are data requirements, model extensions, 
 business changes may be (eg pricing, contract structure), what is "lean" materially, etc.
+
+There are also [project notes](#Notes) and [several references](#References) below.
 
 <a name="task1"></a>
 
@@ -57,10 +60,11 @@ Revealed assumptions:
 
 Other comments:
 
-- we looked at several ways to formulate constraints for limited shelf-life / max storage duration  ("условие непротухания")
+- we looked at several ways to formulate constraints for limited shelf-life / limit on storage duration  ("условие непротухания")
+- minumum inventory is not necessarily the freshest shipment (?)
 
 
-### Solution
+#### Solution
 
 | Day                |   0 |   1 |   2 |   3 |   4 |   5 |   6 |
 |:-------------------|----:|----:|----:|----:|----:|----:|----:|
@@ -95,6 +99,18 @@ Pick most profitable orders from a list of orders when demand is over production
 - prices for same products may vary by order
 - we need to limit time span for orders
 
+<a name="task4"></a>
+
+## Task 4 - Combine tasks 1, 2 and 3]
+
+What can go wrong when combining three tasks:
+
+- more constraints overlap
+- will need more days of planning (>7)
+- may need to relax more constraints (eg zero incoming and outgoing inventory)
+- must write exhaustive list of assumptions
+- shoud expiry dates affect storage at the warehouse or is is global product life?
+
 ## Notes
 
 Remaining questions about the PuLP solver and example extentions:
@@ -107,13 +123,6 @@ Remaining questions about the PuLP solver and example extentions:
 5. Can we do multiple criteria optimisation (eg weights in target func)?
 6. How to list second-best, third-best solution?
 7. What would 'soft constraints' enable us to do?
-
-What can go wrong when combining three tasks:
-
-- more constraints overlap
-- will need more days of planning (>7)
-- may need to relax more constraints (eg zero outgoing inventory)
-- exhaustive list of assumptions
 
 Other modelling needs:
 
