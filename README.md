@@ -1,4 +1,17 @@
-## Task 1 - production schedule for 1 perishable product 
+# Scheduling and production planning problems
+
+> The optimal solution for a model is not necessarily the optimal solution for the real problem.
+
+Contents:
+
+- [Task 1 - production schedule for one perishable product](#task1)
+- [Task 2 - two non-perishable goods, one is precursor to another](#task2)
+- [Notes](#Notes)
+- [References](#References)
+
+<a name="task1"></a>
+
+## Task 1 - production schedule for one perishable product 
 
 ### Problem description
 
@@ -53,6 +66,8 @@ Solution code [here](simple_demo.py).
 
 ![](simple_demo.png)
 
+<a name="task2"></a>
+
 ## Task 2 - two non-perishable goods, one is precursor to another
 
 - we produce two goods 
@@ -71,7 +86,6 @@ May add next:
 - picking most profitable orders from a list over capacity
 - 2+ products, different margins (price-unit cost)
 - sequential production (product 1 is a precursor to product 2)
-- other realistic features
 
 Questions:
 
@@ -79,6 +93,9 @@ Questions:
    How do we extract other solutions from solver?
 2. How to we know which cnstrain was binding?
 
-### Reference
+## References
 
-See <https://coin-or.github.io/pulp/> for PuLP package documentation.
+- [PuLP package documentation](https://coin-or.github.io/pulp)
+- [Mixed Integer Linear Programming in Process Scheduling: Modeling, Algorithms, and Applications](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjL0N-kxL7sAhUnmYsKHWoxBm0QFjAAegQIAhAC&url=http%3A%2F%2Fcheresearch.engin.umich.edu%2Flin%2Fpublications%2FMixed%2520Integer%2520Linear%2520Programming%2520in%2520Process%2520Scheduling.pdf&usg=AOvVaw1o03XZyPw9rgAH3YG7bJOz)
+- [Multiproduct, multistage machine requirements planning models](https://core.ac.uk/download/pdf/81151558.pdf)
+- ["Supplement B"](http://www.uky.edu/~dsianita/300/online/LP.pdf) from [lecture notes](http://www.uky.edu/~dsianita/300/300lecture.html)
