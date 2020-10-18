@@ -3,9 +3,7 @@
 > The optimal solution for a model is not necessarily the optimal solution for the real problem.
 `["Supplement B"]`
 
-This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), python librabry for linear programming.
-
-There are three tasks, followed by [project notes](#Notes) and [several references](#References):
+This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), python librabry for linear programming. There are three tasks, followed by [project notes](#Notes) and [several references](#References):
 
 - [Task 1 - Production schedule for one perishable product](#task1)
 - [Task 2 - Sequential production](#task2)
