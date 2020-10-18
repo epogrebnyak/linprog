@@ -11,7 +11,7 @@ There are three tasks, followed by [project notes](#Notes) and [several referenc
 The problems are kept quite simple and toy size (7 days of planning, 1-2 goods). They reveal 
 the logic of formulation of storage time limit, sequential production and order selection. 
 
-Why this can useful - detecting what we capture in the model and what not with respect to real production.
+Why this can useful? Model vs real world: detecting what we capture in the model and what not with respect to real production.
 
 <a name="task1"></a>
 
