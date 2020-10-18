@@ -1,5 +1,7 @@
 # Scheduling and production planning problems
 
+We set several small problems to be solved with PuLP, progressively adding more realism in order to model operations of a chemical production line. 
+
 - [Task 1 - Production schedule for one perishable product](#task1)
 - [Task 2 - Sequential production, product A is a precursor to product B](#task2)
 - [Notes](#Notes)
@@ -20,7 +22,7 @@ Setting:
 - product is perishable, it can be stored for s days, let `s = 3`
 - we are given a purchases schedule on each day, let `purchases = [0, 0, 2, 8, 1, 0, 1]`
 
-Find production volumes `x[t]` (result can be non-unique).
+Introduce target fucntion and find production volumes `x[t]`. Explore situation where result is not unique.
 
 ### Solution formulation 
 
@@ -64,14 +66,15 @@ Solution code [here](simple_demo.py).
 
 ## Task 2 - Sequential production, product A is a precursor to product B
 
-- we produce two goods 
-- good A is precursor to good B, but there are orders for both A and B.
-- to produce 1 ton of B one needs 1.2 tons of A. 
-- goods A and B are storable, no shelf life constraint
+- 2 products
+- good A is precursor to good B
+- there are client orders for both A and B
+- to produce 1 ton of B one needs 1.2 tons of A
+- goods A and B are storable, there is no shelf life constraint
 - the prices and unit costs of production are given
-- there are capacity constraintrs for A and B
+- there are capacity constraints for A and B
 
-Find optimal production of good A and B (`xa`, `xb`)
+Introduce target fucntion and find optimal production of product A and B (`xa`, `xb`)
 
 ## Notes
 
@@ -97,6 +100,7 @@ Quote:
 Software:
 
 - [PuLP package documentation](https://coin-or.github.io/pulp)
+- [Pyomo](https://www.pyomo.org)
 
 Papers (review, etc):
 
