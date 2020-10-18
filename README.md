@@ -1,11 +1,14 @@
 # Scheduling and production planning problems
 
-We set several small problems to be solved with PuLP, progressively adding more realism in order to model operations of a chemical production line. 
+This is a set of demo problems to try PuLP, python librabry for linear programming.
+
+The problems are kept quite simple and toy size, if needed can be thought over as chemical or mechanical production lines.  
+
+There are three tasks, followed by [project notes](#Notes) and [several references](#References):
 
 - [Task 1 - Production schedule for one perishable product](#task1)
 - [Task 2 - Sequential production, product A is a precursor to product B](#task2)
-- [Notes](#Notes)
-- [References](#References)
+- [Task 3 - Select orders when demand over capacity](#task3)
 
 <a name="task1"></a>
 
@@ -74,21 +77,28 @@ Solution code [here](simple_demo.py).
 - the prices and unit costs of production are given
 - there are capacity constraints for A and B
 
-Introduce target fucntion and find optimal production of product A and B (`xa`, `xb`)
+Introduce target function and find optimal production of product A and B (`xa`, `xb`)
+
+<a name="task3"></a>
+
+## Task 3 - Select orders when demand over capacity
+
+Pick most profitable orders from a list of orders when demand is over production capacity.
+
+Todo next (after 18/10/2020).
 
 ## Notes
 
-May add next:
-
-- picking most profitable orders from a list over capacity
-- 2+ products, different margins (price-unit cost)
-- can explcitly model FIFO warehouse (by earmarking daily production), as a check
-
-Questions:
+Remaining questions about the PuLP solver:
 
 1. The solution may be not unique, but how do we know it from solver?
    How do we extract other solutions from solver?
 2. How to know which constraint was binding?
+
+May add next:
+
+- 2+ products, different margins (price-unit cost)
+- explcitly model FIFO warehouse (by earmarking daily production), as a check
 
 Quote:
 
