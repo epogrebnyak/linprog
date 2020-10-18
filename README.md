@@ -11,9 +11,11 @@ This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), py
 
 The problems are kept quite simple and toy size (7 days of planning, 1-2 goods). They reveal 
 the logic of formulation of storage time limit, sequential production and order selection for 
-factory (eg chemical or mechanical production). 
+a generic industrial (eg chemical or mechanical) production. 
 
-Why this excercise can be useful? Model vs real world: detecting what we capture in the model and what not with respect to real production.
+Why this excercise can be useful? Differentiate model vs real world, detect what we capture in the model and what not with respect to real production,
+see if enforcing model rules can be feasible in practice, what judgement may suggest vs the model, what are data requirements, model extensions, 
+business changes (eg pricing, contract structure), what is "lean" materially, etc.
 
 <a name="task1"></a>
 
@@ -99,7 +101,7 @@ Remaining questions about the PuLP solver and example extentions:
 1. The solution may be not unique, but how do we know it from solver?
    How do we extract other solutions from solver?
 2. How to know which constraint was binding?
-3. Are dual prices meaning for this type of problem?
+3. Are dual prices meaningful for this type of problem?
 4. Is any sensitivity analysis possible?
 
 Extra assignents:
