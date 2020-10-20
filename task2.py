@@ -1,5 +1,4 @@
 import warnings
-from dataclasses import dataclass
 
 import pulp
 from numpy import array
@@ -7,13 +6,6 @@ from numpy import array
 warnings.simplefilter("ignore")  # shut <Spaces are not permitted in the name.>
 
 from util import peek
-
-
-@dataclass
-class Order:
-    day: int  # zero-based
-    quantity: float
-    price: float = 1  # (to be relaxed)
 
 
 # Given:
