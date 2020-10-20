@@ -24,7 +24,10 @@ import pulp
 from numpy import cumsum
 
 import warnings
-warnings.simplefilter("ignore")  # shut the message <Spaces are not permitted in the name.>
+
+warnings.simplefilter(
+    "ignore"
+)  # shut the message <Spaces are not permitted in the name.>
 
 
 # Given:

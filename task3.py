@@ -8,11 +8,12 @@ warnings.simplefilter("ignore")  # shut <Spaces are not permitted in the name.>
 
 from util import peek
 
+
 @dataclass
 class Order:
     day: int  # zero-based
     quantity: float
-    price: float = 1 # (to be relaxed)
+    price: float = 1  # (to be relaxed)
 
 
 # Given:
@@ -49,16 +50,20 @@ def accumulate(var, i):
 
 for d in days:
     inventory[d] = accumulate(x, d) - accumulate(purchases, d)
-    model += accumulate(x, d) - accumulate(purchases, d) >= 0, f"Pos.inventory at day {d}"
+    model += (
+        accumulate(x, d) - accumulate(purchases, d) >= 0,
+        f"Pos.inventory at day {d}",
+    )
 
 # Closed sum (zero inventory at start or end)
-model += pulp.lpSum(x) == pulp.lpSum(purchases),  "Closed sum"
+model += pulp.lpSum(x) == pulp.lpSum(purchases), "Closed sum"
 
 # Target: max profit with penalty for inventory
 # Note: penalty coef will matter, try 0.1 instead of 100
 cost_of_holding_inventory = 100
-model += pulp.lpSum([purchases[d] for d in days]) - \
-    cost_of_holding_inventory * pulp.lpSum([inventory[d] for d in days])
+model += pulp.lpSum(
+    [purchases[d] for d in days]
+) - cost_of_holding_inventory * pulp.lpSum([inventory[d] for d in days])
 
 
 feasibility = model.solve()
@@ -70,5 +75,5 @@ print("total:", sum(peek(x)))
 print("purchases:", peek(purchases))
 print("total:", sum(peek(purchases)))
 for accepted, order in zip(peek(accept), orders):
-   print(order, "accepted" if accepted else "rejected")
+    print(order, "accepted" if accepted else "rejected")
 print("Objective value:", model.objective.value())
