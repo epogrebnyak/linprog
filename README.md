@@ -19,7 +19,7 @@ Why this excercise should be be useful?
 - See if enforcing model rules can be feasible in practice
 - What judgement and intuition may suggest vs the model
 - What are data requirements for model to work well
-- What shoulkd changeon th ebusiness side (eg pricing, contract structure, purchase procedures)
+- What should change on the business side (eg pricing, contract structure, sourcing procedures)
 - What "lean" materially is
 
 There are also [project notes](#Notes) and [several references](#References) below.
