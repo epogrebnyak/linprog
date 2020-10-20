@@ -160,6 +160,7 @@ Remaining questions about the PuLP solver and example extentions:
 5. Can we do multiple criteria optimisation (eg better decide on weights in target func)?
 6. How to list second-best, third-best solution?
 7. What would 'soft constraints' enable us to do?
+8. Maybe there is a nice table view of model variables?
 
 Other modelling needs:
 
