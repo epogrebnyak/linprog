@@ -17,16 +17,14 @@ Demonstrate solver behavior under following parameters and expected results:
 - production schedule not feasisble eg ps = [0, 0, 0, 20, 0, 0, 0]
 """
 
-import time
-import warnings
-from contextlib import contextmanager
-from dataclasses import dataclass
+from util import timer
 
 import pandas as pd
 import pulp
 from numpy import cumsum
 
-warnings.simplefilter("ignore")  # shut <Spaces are not permitted in the name.>
+import warnings
+warnings.simplefilter("ignore")  # shut the message <Spaces are not permitted in the name.>
 
 
 # Given:
@@ -75,12 +73,12 @@ def inventory(i):
 model += pulp.lpSum(inventory(i) for i in days)
 
 # Constraint 1
-# No inventory at end of period, everyhting what is produced consumed within period
+# No inventory at start or end of period, everyhting what is produced consumed within period
 model += pulp.lpSum(x) == sum(purchases)
 
 # Constraint 2
 # This is availability constraint - there is enough product produced to satisfy demand
-# We effectively require non-negative inventory.
+# THis is equivalent to require non-negative inventory.
 for i in days:
     model += cumprod(i) - cumbuy(i) >= 0
 
@@ -97,21 +95,6 @@ for i in days:
         # (earlier suggested by Dmitry)
     except IndexError:
         pass
-
-
-@dataclass
-class Timer:
-    elapsed: float = 0
-
-
-@contextmanager
-def timer():
-    start = time.perf_counter()
-    t = Timer()
-    try:
-        yield t
-    finally:
-        t.elapsed = time.perf_counter() - start
 
 
 def plot(df, df_cum):
@@ -164,17 +147,17 @@ def calculate(purchases, max_days_storage, max_output):
     x = pulp.LpVariable.dicts("Production", days, lowBound=0, upBound=max_output)
     cum_prod = cumsum([v for k, v in x.items()])
     inventory = cum_prod - cum_purchases
-    # target func: min inventory
+    # target function: min inventory
     model += pulp.lpSum(inventory[i] for i in days)
-    # closed sum, zero inventory at start and end
-    model += pulp.lpSum(x) == sum(purchases)
-    # enough production to satisfy purchases
+    # constriant 1: zero inventory at start and end
+    model += pulp.lpSum(x) == sum(purchases), "Closed sum"
+    # constriant 2: enough production to satisfy purchases
     for i in days:
-        model += cum_prod[i] - cum_purchases[i] >= 0
-    # nothing stored too long
+        model += cum_prod[i] - cum_purchases[i] >= 0, f"Inventory at day {i} >=0"
+    # constriant 3: no goods stored beyond expiry
     for i in days[: (-max_days_storage + 1)]:
         offtake = cum_purchases[i + max_days_storage - 1] - cum_purchases[i]
-        model += inventory[i] <= offtake
+        model += inventory[i] <= offtake, f"Inventory at day {i} will not expire"
     return model, x
 
 
