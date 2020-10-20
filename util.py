@@ -3,6 +3,14 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 
 
+def peek(x):
+    """
+    Lookup into dict of pulp.LpVariable.
+    """
+    return [v.value() for v in x.values()]
+
+
+
 @dataclass
 class Timer:
     elapsed: float = 0

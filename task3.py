@@ -1,19 +1,18 @@
-import time
 import warnings
-from contextlib import contextmanager
 from dataclasses import dataclass
 
-import pandas as pd
 import pulp
 from numpy import cumsum, array
 
 warnings.simplefilter("ignore")  # shut <Spaces are not permitted in the name.>
 
+from util import peek
 
 @dataclass
 class Order:
     day: int  # zero-based
     quantity: float
+    price: float = 1 # (to be relaxed)
 
 
 # Given:
@@ -40,36 +39,36 @@ accept = pulp.LpVariable.dicts("AcceptOrder", range(len(orders)), cat="Binary")
 # Purchases are accepted orders
 for d in days:
     purchases[d] = pulp.lpSum(
-        [order.quantity * accept[i] for i, order in enumerate(orders) if d == order.day]
+        [order.quantity * accept[j] for j, order in enumerate(orders) if d == order.day]
     )
 
-# Inventory is positive
+# Constraint: Inventory is positive
 def accumulate(var, i):
     return pulp.lpSum([var[k] for k in range(i + 1)])
 
 
 for d in days:
     inventory[d] = accumulate(x, d) - accumulate(purchases, d)
-    model += accumulate(x, d) - accumulate(purchases, d) >= 0
+    model += accumulate(x, d) - accumulate(purchases, d) >= 0, f"Pos.inventory at day {d}"
 
-# Closed sum
-model += pulp.lpSum(x) == pulp.lpSum(purchases)
+# Closed sum (zero inventory at start or end)
+model += pulp.lpSum(x) == pulp.lpSum(purchases),  "Closed sum"
 
-# Target
-model += pulp.lpSum([purchases[d] for d in days]) - 0.5 * pulp.lpSum(
-    [inventory[d] for d in days]
-)
+# Target: max profit with penalty for inventory
+# Note: penalty coef will matter, try 0.1 instead of 100
+cost_of_holding_inventory = 100
+model += pulp.lpSum([purchases[d] for d in days]) - \
+    cost_of_holding_inventory * pulp.lpSum([inventory[d] for d in days])
 
 
 feasibility = model.solve()
 print("Status:", pulp.LpStatus[feasibility])
 
 
-def peek(x):
-    """
-    Lookup into dict of pulp.LpVariable.
-    """
-    return [v.value() for v in x.values()]
-
-
-print(peek(x))
+print("production:", peek(x))
+print("total:", sum(peek(x)))
+print("purchases:", peek(purchases))
+print("total:", sum(peek(purchases)))
+for accepted, order in zip(peek(accept), orders):
+   print(order, "accepted" if accepted else "rejected")
+print("Objective value:", model.objective.value())
