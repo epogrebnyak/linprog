@@ -7,16 +7,20 @@ This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), py
 
 - [Task 1 - Production schedule for one perishable product](#task1)
 - [Task 2 - Sequential production](#task2)
-- [Task 3 - Select orders when demand over capacity](#task3)
+- [Task 3 - Select orders when demand over capacity](#task3) (mixed integer problem)
 - [Task 4 - Combine tasks 1, 2 and 3](#task4)
 
-The problems are kept quite simple and toy size (7 days of planning, 1-2 goods). They reveal 
-the logic of formulation of storage time limit, sequential production and order selection for 
-a generic industrial (eg chemical or mechanical) production. 
+The problems are kept simple and toy size (7 days of planning, 1-2 goods) for traceability and ease of review and testing.
 
-Why this excercise can be useful? Differentiate model vs real world, detect what we capture in the model and what not with respect to real production,
-see if enforcing model rules can be feasible in practice, what judgement and intuition may suggest vs the model, what are data requirements, model extensions, 
-business changes may be (eg pricing, contract structure), what is "lean" materially, etc.
+Why this excercise should be be useful?
+
+- Build and test parts first before solving a bigger problem
+- Differentiate model vs real world, detect what we capture in the model and what not with respect to real production,
+- See if enforcing model rules can be feasible in practice
+- What judgement and intuition may suggest vs the model
+- What are data requirements for model to work well
+- What should change on the business side (eg pricing, contract structure, sourcing procedures)
+- What "lean" materially is
 
 There are also [project notes](#Notes) and [several references](#References) below.
 
@@ -43,13 +47,12 @@ Target function:
 
 - without target function we just find some feasible solution within the constraints
 - we introduce min phycial inventories as target function to make solution unique
-- may also use min time-weights `7*x0 + 6*x1 + ... + 1*x6` as alternative target function (unconditional preference for later production)
 
-Revealed assumptions:
+We had to make more assumptions:
 
 1. closed sum - everything produced must be consumed, zero outgoing inventory
 2. we set no limit on storage capacity - infinite warehouse
-3. we assume end of day clearance, all purchases made at end of day - everything produced at day t can be sold at day t
+3. we assume full end of day clearance, all purchases made at end of day - everything produced at day t can be sold at day t
 
 |                       | Is contrained?    |
 |-----------------------|-------------------|
@@ -61,7 +64,8 @@ Revealed assumptions:
 Other comments:
 
 - we looked at several ways to formulate constraints for limited shelf-life / limit on storage duration  ("условие непротухания")
-- minumum inventory is not necessarily the freshest shipment (?)
+- minumum inventory is not necessarily the freshest shipment
+- may need to check if FIFO warehouse works without goods expiry, as a safeguard for problem solution
 
 
 #### Solution
@@ -94,36 +98,43 @@ Introduce target function and find optimal production of product A and B (`xa`, 
 
 ## Task 3 - Select orders when demand over capacity
 
-Pick most profitable orders from a list of orders when demand (sum of orders) is over production capacity:
+Pick most profitable orders from a list of orders when demand (sum of orders) is over production capacity.
 
+Production:
 - 2 products
 - constant cost of production for each product, expressed as USD/t
-- total of `m` orders
-- each order in product, price, day_of_delivery_pair
 - capacity constraints, t/day
-- no storage conditions (to be relaxed)
-- no inventory minimisation (to be relaxed)
+
+Orders:
+- total of `m` orders
+- each order is (product, price, day_of_delivery)
 - prices for same products may vary by order
 - orders are indivisible
 - choice on order is accept/reject
-- limit on time span for orders (?)
-- all orders are cash on the spot, no other preferences between orders
+
+Simplifications:
+- no storage conditions (to be relaxed)
+- no inventory minimisation (to be relaxed)
+
+#### Solution
+
+Solution code [here](task3.py).
 
 Orders:
 
-- (order_quantity_1, order_price_1, order_day_1)
+- `(order_1_quantity, order_1_price, order_1_delievery_day)`
 - ...
-- (order_quantity_m, order_price_m, order_day_m)
+- `(order_m_quantity, order_1_price, order_1_delievery_day)`
 
 We will need intergers `accept_1`, ..., `accept_m`, `0 <= accept_i <= 1` to mark if order is accepted.
 
-purchase_t = sum of `accept_<i> * order_quantity_<i>` for all `i` where `order_day_i == t`
+`purchase_t` = sum of `accept_<j> * order_quantity_<j>` for all `j` where `order_j_day == t`
 
-Similar formulation for `profit` = `accept_<i> * order_quantity_<i> * (order_price_<i> - product_cost_<i>)`, 
-where the only variable is `accept_<i>` and the rest are values of variables, known at time of construction of 
+Similar formulation for `profit` = `accept_<j> * order_<j>_quantity_ * (order_<j>_price - product_cost_<j>)`, 
+where the only variable is `accept_<j>` and the rest are values, known at time of construction of 
 target function.
 
-Also need a good test example, showing a case when something could have gone wrong.
+Also need a good test example, showing cases when something could have gone wrong.
 
 <a name="task4"></a>
 
@@ -146,13 +157,14 @@ Remaining questions about the PuLP solver and example extentions:
 2. How to know which constraint was binding?
 3. Are dual prices meaningful for this type of problem?
 4. Is any sensitivity analysis possible?
-5. Can we do multiple criteria optimisation (eg weights in target func)?
+5. Can we do multiple criteria optimisation (eg better decide on weights in target func)?
 6. How to list second-best, third-best solution?
 7. What would 'soft constraints' enable us to do?
 
 Other modelling needs:
 
-1. May need extra way to shift production right - prefer later production for any order
+1. May need extra way to shift production right - prefer later production for any order.
+
 2. Explcitly model FIFO warehouse (by earmarking daily production):
   - as a direct check no expired products are shipped
   - calculate average age of products when sold, in days
