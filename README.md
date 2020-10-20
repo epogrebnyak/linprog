@@ -157,7 +157,7 @@ Remaining questions about the PuLP solver and example extentions:
 2. How to know which constraint was binding?
 3. Are dual prices meaningful for this type of problem?
 4. Is any sensitivity analysis possible?
-5. Can we do multiple criteria optimisation (eg weights in target func)?
+5. Can we do multiple criteria optimisation (eg better decide on weights in target func)?
 6. How to list second-best, third-best solution?
 7. What would 'soft constraints' enable us to do?
 
