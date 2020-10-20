@@ -169,9 +169,6 @@ Other modelling needs:
 
 1. May need extra way to shift production right - prefer later production for any order.
 
-2. Explcitly model FIFO warehouse (by earmarking daily production):
-  - as a direct check no expired products are shipped
-  - calculate average age of products when sold, in days
 
 ## References
 
