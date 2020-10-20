@@ -70,13 +70,14 @@ Other comments:
 
 #### Solution
 
+Solution code [here](task1.py).
+
 | Day                |   0 |   1 |   2 |   3 |   4 |   5 |   6 |
 |:-------------------|----:|----:|----:|----:|----:|----:|----:|
 | Purchases (given)  |     |     |   2 |   8 |   1 |     |   1 |
 | Production (found) |     |     |   5 |   5 |   1 |     |   1 |
 | Inventory          |     |     |   3 |     |     |     |     |
 
-Solution code [here](simple_demo.py).
 
 ![](simple_demo.png)
 
@@ -93,6 +94,8 @@ Solution code [here](simple_demo.py).
 - there are capacity constraints for A and B
 
 Introduce target function and find optimal production of product A and B (`xa`, `xb`)
+
+Solution code [here](task2.py).
 
 <a name="task3"></a>
 
