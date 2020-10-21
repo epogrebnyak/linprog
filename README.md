@@ -12,7 +12,7 @@ This is a set of demo problems to try [PuLP](https://coin-or.github.io/pulp), py
 
 The problems are kept simple and toy size (7 days of planning, 1-2 goods) for traceability and ease of review and testing.
 
-Why this excercise should be be useful?
+Why this excercise should be useful?
 
 - Build and test parts first before solving a bigger problem
 - Differentiate model vs real world, detect what we capture in the model and what not with respect to real production,
