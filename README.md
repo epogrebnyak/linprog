@@ -109,6 +109,16 @@ Solution code [here](task2.py).
 | production_a  |   2 |   0 |  14 |  15 |  12 |   0 |   3 |
 | inventory_a   |   0 |   0 |  10 |   0 |   0 |   0 |   0 |
 
+`processing_a + sales_a = requirement_a`
+
+Things learned:
+- we may omit closed sum constraint if min inventory (AG comments)
+- we need scale the inventory in sequential production min target function (AG comments)
+- we should not forget `B` requires more `A`, not other way around (AG comments) 
+- we can keep only decision variables as `lpVariable`, the rest as dicts, lists or arrays
+
+
+
 <a name="task3"></a>
 
 ## Task 3 - Select orders when demand over capacity
