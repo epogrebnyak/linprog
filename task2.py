@@ -87,6 +87,8 @@ inv_a_values = [x.value() for x in inv_a.values()]
 # Consolidating the inventory values for Product B
 inv_b_values =  [x.value() for x in inv_b.values()]
 
+# EP: notation:
+# processing_a + sales_a = requirement_a
 import pandas as pd
 df = pd.DataFrame(dict(sales_b = purchases_b,
                        production_b = peek(xb),
@@ -97,5 +99,7 @@ df = pd.DataFrame(dict(sales_b = purchases_b,
                        production_a = peek(xa),                       
                        inventory_a = inv_a_values)
                   ).applymap(lambda x: int(x))
-print(df.T)
-    
+print(df.T)    
+
+# EP, maybe: should we use more of numpy.array structures, instead of dicts?
+#            will allow requirement_a = requirement_b_to_a * xb + purchases_a
