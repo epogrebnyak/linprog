@@ -87,15 +87,27 @@ Solution code [here](task1.py).
 
 - 2 products
 - good A is precursor to good B
-- there are client orders for both A and B
-- to produce 1 ton of B one needs 1.2 tons of A
+- to produce 1 ton of B one needs 2 tons of A
+- there are capacity constraints for A and B (15 and 5 tonnes respectively)
+- there are sales orders for both A and B
 - goods A and B are storable, there is no shelf life constraint
-- the prices and unit costs of production are given
-- there are capacity constraints for A and B
 
 Introduce target function and find optimal production of product A and B (`xa`, `xb`)
 
 Solution code [here](task2.py).
+
+|               |   0 |   1 |   2 |   3 |   4 |   5 |   6 |
+|:--------------|----:|----:|----:|----:|----:|----:|----:|
+| Product B     |    |    |    |    |    |    |    |
+| sales_b (given) |   1 |   0 |   0 |   7 |   4 |   0 |   1 |
+| production_b  |   1 |   0 |   2 |   5 |   4 |   0 |   1 |
+| inventory_b   |   0 |   0 |   2 |   0 |   0 |   0 |   0 |
+| Product A     |    |    |    |    |    |    |    |
+| processing_a  |   2 |   0 |   4 |  10 |   8 |   0 |   2 |
+| sales_a (given) |   0 |   0 |   0 |  15 |   4 |   0 |   1 |
+| requirement_a |   2 |   0 |   4 |  25 |  12 |   0 |   3 |
+| production_a  |   2 |   0 |  14 |  15 |  12 |   0 |   3 |
+| inventory_a   |   0 |   0 |  10 |   0 |   0 |   0 |   0 |
 
 <a name="task3"></a>
 
