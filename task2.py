@@ -1,77 +1,101 @@
+"""
+Task definition:
+    https://github.com/epogrebnyak/linprog#task-2
+
+"""
 import warnings
+from typing import List
 
 import pulp
 from numpy import array
 
-warnings.simplefilter("ignore")  # shut <Spaces are not permitted in the name.>
-
-from util import peek
-
+# Mute <Spaces are not permitted in the name.> warning
+warnings.simplefilter("ignore")  
 
 # Given:
 
 max_output_a = 15
-max_output_b = 100  # unconstrained
+max_output_b = 5
 
-purchases_a = array([0, 0, 0, 15, 4, 0, 1.0])
-purchases_b = array([0, 0, 0, 7, 4, 0, 1.0])
+purchases_a = array([0, 0, 0, 15, 4, 0, 1])
+purchases_b = array([1, 0, 0, 7, 4, 0, 1])
+
+# EP: if we order B, we need requirement_b_to_a times more product A
 requirement_b_to_a = 2
+
+# Functions:    
+
+def peek(x) -> List[float]:
+    """Get values of pulp.LpVariable."""
+    return [v.value() for v in x.values()]    
+
+def accumulate(var, i):
+    return pulp.lpSum([var[k] for k in range(i + 1)])
+
+# Solution:
 
 total_days = len(purchases_a)
 assert len(purchases_a) == len(purchases_b)
 days = [i for i in range(total_days)]
 
 model = pulp.LpProblem("Planning Problem", pulp.LpMinimize)
+
+# Declare variables
 xa = pulp.LpVariable.dicts(
     "Production Product A", days, lowBound=0, upBound=max_output_a
 )
 xb = pulp.LpVariable.dicts(
     "Production Product B", days, lowBound=0, upBound=max_output_b
 )
-inv_a = pulp.LpVariable.dicts("Inventory Product A", days)
-inv_b = pulp.LpVariable.dicts("Inventory Product B", days)
-requirement_b = pulp.LpVariable.dicts("Total Demand for Product B", days)
+inv_a = dict()
+inv_b = dict()
 
-# Constraint: Inventory is positive
-def accumulate(var, i):
-    return pulp.lpSum([var[k] for k in range(i + 1)])
-
-
+requirement_b = purchases_b
+requirement_a = dict()
 for d in days:
-    inv_a[d] = accumulate(xa, d) - accumulate(purchases_a, d)
-    model += inv_a[d] >= 0, f"Pos.inv. A at day {d}"
+    # AG: more of b requires more of a, not other way around
+    requirement_a[d] = requirement_b_to_a * xb[d] + purchases_a[d]
 
-# Closed sum (zero inventory at start or end)
-model += pulp.lpSum(xa) == pulp.lpSum(purchases_a), "Closed sum for A"
+# Closed sum (zero inventory at start or end)  
+# AG: we can live without this constraint
+# model += pulp.lpSum(xa) == pulp.lpSum(requirement_a.values())
+# model += pulp.lpSum(xb) == pulp.lpSum(requirement_b)
 
-# Target: min inventory
-model += pulp.lpSum(inv_a)
-
-# Requirement to produce d (intermediate + final demand):
-for d in days:
-    requirement_b[d] = requirement_b_to_a * xa[d] + purchases_b[d]
-
+# Constraint: positive inventory
 for d in days:
     inv_b[d] = accumulate(xb, d) - accumulate(requirement_b, d)
-    model += inv_b[d] >= 0, f"Pos.inv. D at day {d}"
+    model += inv_b[d] >= 0, f"Pos.inv.B at day {d}"
+    inv_a[d] = accumulate(xa, d) - accumulate(requirement_a, d)
+    model += inv_a[d] >= 0,  f"Pos.inv.A at day {d}" #EP: somehow naming gives an error
 
 # Target: min inventory
-model += pulp.lpSum(inv_a) + pulp.lpSum(inv_b)
+# AG: added requirement_b_to_a term as we need to scale the penalty for b by the proportion of a  
+model += (pulp.lpSum(inv_a.values()) + pulp.lpSum(inv_b.values()) * (requirement_b_to_a + 1))
 
-
-# The solusion below will just silly stack production
-# at days where the demand is.
 feasibility = model.solve()
 print("Status:", pulp.LpStatus[feasibility])
-print("production A:", peek(xa))
-print("total:", sum(peek(xa)))
-print("purchases A: ", purchases_a)
-print("total:", sum(purchases_a))
-print("production B: ", peek(xb))
-print("total:", sum(peek(xb)))
-print("purchases B: ", purchases_b)
-print("intermediate demand for B: ", array(peek(requirement_b)) - purchases_b)
-print("requirement B:", peek(requirement_b))
-print("total:", sum(peek(requirement_b)))
 
-print("Objective value:", model.objective.value())
+# Consolidating the Prodcut A Production Result
+xa_values = peek(xa)
+
+# Consolidating the Prodcut B Production Result
+xb_values = peek(xb)
+
+# Consolidating the inventory values for Product A
+inv_a_values = [x.value() for x in inv_a.values()]
+
+# Consolidating the inventory values for Product B
+inv_b_values =  [x.value() for x in inv_b.values()]
+
+import pandas as pd
+df = pd.DataFrame(dict(sales_b = purchases_b,
+                       production_b = peek(xb),
+                       inventory_b = inv_b_values,
+                       processing_a = peek(requirement_a) - purchases_a,
+                       sales_a = purchases_a,
+                       requirement_a = peek(requirement_a),
+                       production_a = peek(xa),                       
+                       inventory_a = inv_a_values)
+                  ).applymap(lambda x: int(x))
+print(df.T)
+    
