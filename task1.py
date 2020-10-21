@@ -102,6 +102,7 @@ for i in days:
 
 def plot(df, df_cum):
     import matplotlib.pyplot as plt
+    import os
 
     fig, (ax1, ax2) = plt.subplots(1, 2, sharex=True, sharey=True)
     fig.set_size_inches(8, 3)
@@ -109,7 +110,8 @@ def plot(df, df_cum):
     df.plot.bar(ax=ax2)
     ax1.yaxis.grid()
     ax2.yaxis.grid()
-    fig.savefig("simple_demo.png")
+    # will eror if folder does not exist
+    fig.savefig(os.path.join("images", "task1.png"))
 
 
 # Solve model

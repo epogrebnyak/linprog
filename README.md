@@ -79,16 +79,17 @@ Solution code [here](task1.py).
 | Inventory          |     |     |   3 |     |     |     |     |
 
 
-![](simple_demo.png)
+![](images/task1.png)
 
 <a name="task2"></a>
 
 ## Task 2 - Sequential production, product A is a precursor to product B
 
-- 2 products
-- good A is precursor to good B
-- to produce 1 ton of B one needs 2 tons of A
-- there are capacity constraints for A and B (15 and 5 tonnes respectively)
+- 2 products, daily production volumes `xa[t]` and `xb[t]`
+- good A is precursor to good B, to produce 1 ton of B one needs 2 tons of A
+- there are capacity constraints for A and B:
+  - `0 <= xa[t] <= 15`
+  - `0 <= xb[t] <= 5`
 - there are sales orders for both A and B (`sales_a` and `sales_b`)
 - goods A and B are storable, there is no shelf life constraint
 
@@ -109,14 +110,14 @@ Solution code [here](task2.py).
 | production_a  |   2 |   0 |  14 |  15 |  12 |   0 |   3 |
 | inventory_a   |   0 |   0 |  10 |   0 |   0 |   0 |   0 |
 
-`processing_a + sales_a = requirement_a`
+Extra notation: `processing_a + sales_a = requirement_a`
 
 Things learned:
-- we may omit closed sum constraint if min inventory (AG comments)
-- we need scale the inventory in sequential production min target function (AG comments)
-- we should not forget `B` requires more `A`, not other way around (AG comments) 
-- we can keep only decision variables as `lpVariable`, the rest as dicts, lists or arrays
 
+- we may omit closed sum constraint if min inventory 
+- we need scale the inventory in sequential production min target function 
+- we can keep only decision variables as `lpVariable`
+- we can use dicts or numpy arrays
 
 
 <a name="task3"></a>
@@ -126,11 +127,13 @@ Things learned:
 Pick most profitable orders from a list of orders when demand (sum of orders) is over production capacity.
 
 Production:
+
 - 2 products
 - constant cost of production for each product, expressed as USD/t
 - capacity constraints, t/day
 
 Orders:
+
 - total of `m` orders
 - each order is (product, price, day_of_delivery)
 - prices for same products may vary by order
@@ -138,6 +141,7 @@ Orders:
 - choice on order is accept/reject
 
 Simplifications:
+
 - no storage conditions (to be relaxed)
 - no inventory minimisation (to be relaxed)
 
