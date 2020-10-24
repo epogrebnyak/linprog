@@ -198,7 +198,7 @@ Remaining questions  about the PuLP solver:
 1. May need extra way to shift production right - prefer later production for any specific order.
    This happens because our product is perishable. Perhaps minimal inventory is not a guarantee 
    this is the latest-in-time production, but I may be wrong.
-2. We may need a check to model FIFO stack as in #1
+2. We may need a check to model FIFO stack as in [issue #1](https://github.com/epogrebnyak/linprog/issues/1)
 3. We may need to model lead times for production - production may take more than 1 day,
    this will affect solutions for task 2.
 
