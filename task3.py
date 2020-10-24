@@ -37,7 +37,7 @@ x = pulp.LpVariable.dicts("Production", days, lowBound=0, upBound=max_output)
 accept = pulp.LpVariable.dicts("AcceptOrder", range(len(orders)), cat="Binary")
 
 # Purchases are accepted orders
-purchases= dict()
+purchases = dict()
 for d in days:
     purchases[d] = pulp.lpSum(
         [order.quantity * accept[j] for j, order in enumerate(orders) if d == order.day]
@@ -46,6 +46,7 @@ for d in days:
 # Constraint: Inventory is positive
 def accumulate(var, i):
     return pulp.lpSum([var[k] for k in range(i + 1)])
+
 
 inventory = dict()
 for d in days:
@@ -56,17 +57,17 @@ for d in days:
     )
 
 # Closed sum (zero inventory at start or end)
-# AG - as we are penalizing the inventory, we may omit this. But in larger 
-# problems these type of equations are useful to bound the variable. 
+# AG - as we are penalizing the inventory, we may omit this. But in larger
+# problems these type of equations are useful to bound the variable.
 # So we generally try both the cases (with and without such quealities)
 model += pulp.lpSum(x) == pulp.lpSum(purchases), "Closed sum"
 
 # Target: max profit with penalty for inventory
 # Note: penalty coef will matter, try 0.1 instead of 100
-# AG - I will go with 0.1 (any value lower than the price of the product) 
-# for cost of holding inventory. If we use 100, the penalty will be 100 times 
-# the product. hence if we sell 1 product after a day, we will be paid $1 but 
-# will have to pay $100 for the inventory and hence the model will minimize 
+# AG - I will go with 0.1 (any value lower than the price of the product)
+# for cost of holding inventory. If we use 100, the penalty will be 100 times
+# the product. hence if we sell 1 product after a day, we will be paid $1 but
+# will have to pay $100 for the inventory and hence the model will minimize
 # the inventory
 cost_of_holding_inventory = 1
 # EP: examples of cost_of_holding_inventory values

@@ -90,6 +90,7 @@ feasibility = model.solve()
 print("Status:", pulp.LpStatus[feasibility])
 if feasibility == 1:
     import pandas as pd
+
     df = pd.DataFrame(
         dict(
             sales_b=purchases_b,
