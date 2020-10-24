@@ -179,7 +179,9 @@ What can go wrong when combining three tasks:
 
 ## Notes
 
-Remaining questions about the PuLP solver and example extentions:
+#### Remaining questions 
+
+Remaining questions  about the PuLP solver:
 
 1. The solution may be not unique, but how do we know it from solver?
    How do we extract other solutions from solver?
@@ -189,12 +191,16 @@ Remaining questions about the PuLP solver and example extentions:
 5. Can we do multiple criteria optimisation (eg better decide on weights in target func)?
 6. How to list second-best, third-best solution?
 7. What would 'soft constraints' enable us to do?
-8. Maybe there is a nice table view of model variables?
+8. Maybe there is a built-in nice table view of model variables?
 
-Other modelling needs:
+#### Other modelling needs:
 
-1. May need extra way to shift production right - prefer later production for any order.
-
+1. May need extra way to shift production right - prefer later production for any specific order.
+   This happens because our product is perishable. Perhaps minimal inventory is not a guarantee 
+   this is the latest-in-time production, but I may be wrong.
+2. We may need a check to model FIFO stack as in #1
+3. We may need to model lead times for production - production may take more than 1 day,
+   this will affect solutions for task 2.
 
 ## References
 
