@@ -175,7 +175,6 @@ def peek(x):
 
 assert days[: -max_days_storage + 1][-1] + max_days_storage - 1 == days[-1]
 
-
 m, x = calculate([0, 0, 0, 20, 0, 0, 0], 3, 5)
 assert m.solve() == -1
 
@@ -191,6 +190,6 @@ m, x = calculate([0, 0, 2, 8, 1, 0, 1], 3, 5)
 m.solve()
 assert peek(x) == [0, 0, 5, 5, 1, 0, 1]
 
-m, x = calculate([0, 0, 0, 10, 1, 0, 5], 3, 5)
+m, x = calculate([0, 0, 0, 10, 1, 0, 1], 3, 5)
 m.solve()
-assert peek(x) == [0, 0, 5, 5, 1, 0, 5]
+assert peek(x) == [0, 0, 5, 5, 1, 0, 1]
