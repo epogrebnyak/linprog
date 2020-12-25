@@ -189,3 +189,7 @@ assert peek(x) == [5, 5, 5, 0, 0, 0, 0]
 m, x = calculate([0, 0, 2, 8, 1, 0, 1], 3, 5)
 m.solve()
 assert peek(x) == [0, 0, 5, 5, 1, 0, 1]
+
+m, x = calculate([0, 0, 0, 10, 1, 0, 1], 3, 5)
+m.solve()
+assert peek(x) == [0, 0, 5, 5, 1, 0, 1]
